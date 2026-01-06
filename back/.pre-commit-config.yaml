@@ -1,0 +1,23 @@
+default_stages: [pre-commit]
+
+repos:
+  - repo: local
+
+    hooks:
+
+    # Code formatting
+
+    - id: ruff format
+      name: ruff format
+      language: python
+      entry: ruff format
+      types: [python]
+
+    # Code analysis
+    
+    - id: ruff check
+      name: ruff check
+      language: python
+      entry: ruff check .
+      args: [--fix, --exit-non-zero-on-fix]
+      types: [python]
