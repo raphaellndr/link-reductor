@@ -62,7 +62,7 @@ export function UrlForm({ onSuccess }: UrlFormProps) {
             <button
               type="submit"
               disabled={isLoading}
-              className="rounded-lg bg-blue-600 px-6 py-3 font-medium text-white hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+              className="rounded-lg bg-blue-600 px-6 py-3 font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-400"
             >
               {isLoading ? "Shortening..." : "Shorten"}
             </button>
