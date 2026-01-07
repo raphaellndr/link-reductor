@@ -21,10 +21,19 @@ class UrlView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class RedirectUserView(View):
-    """Redirects user to original URL."""
+class RedirectByUuidView(View):
+    """Redirects user to original URL using UUID."""
 
     def get(self, request: Request, uuid: UUID) -> HttpResponsePermanentRedirect:
-        """Redirects to the original URL."""
+        """Redirects to the original URL by UUID."""
         url = get_object_or_404(Url, id=uuid)
+        return redirect(url.url, permanent=True)
+
+
+class RedirectBySlugView(View):
+    """Redirects user to original URL using custom slug."""
+
+    def get(self, request: Request, slug: str) -> HttpResponsePermanentRedirect:
+        """Redirects to the original URL by slug."""
+        url = get_object_or_404(Url, slug=slug)
         return redirect(url.url, permanent=True)

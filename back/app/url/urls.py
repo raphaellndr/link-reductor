@@ -2,9 +2,10 @@
 
 from django.urls import path
 
-from app.url.views import RedirectUserView, UrlView
+from app.url.views import RedirectBySlugView, RedirectByUuidView, UrlView
 
 urlpatterns = [
     path("", UrlView.as_view(), name="url-list"),
-    path("<uuid:uuid>/", RedirectUserView.as_view(), name="user-redirect"),
+    path("s/<str:slug>/", RedirectBySlugView.as_view(), name="redirect-by-slug"),
+    path("u/<uuid:uuid>/", RedirectByUuidView.as_view(), name="redirect-by-uuid"),
 ]
