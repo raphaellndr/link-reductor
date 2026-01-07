@@ -1,20 +1,29 @@
 # Link Reductor - Backend
-
 Django REST Framework backend for the URL shortener service.
 
 ## API Endpoints
 
 ### Create shortened URL
 ```
-POST /api/urls
+POST /api/urls/
 Body: { "url": "https://example.com/long-url" }
-Response: { "id": "eb180b57-2795-4414-b5ff-8cf8caff350e", "url": "https://example.com/long-url" }
+Response: { "id": "eb180b57-2795-4414-b5ff-8cf8caff350e", "url": "https://example.com/long-url", "slug": null }
+```
+
+### Create shortened URL with custom slug
+```
+POST /api/urls/
+Body: { "url": "https://example.com/long-url", "slug": "my-link" }
+Response: { "id": "eb180b57-2795-4414-b5ff-8cf8caff350e", "url": "https://example.com/long-url", "slug": "my-link" }
 ```
 
 ### Redirect to original URL
 ```
-GET /api/urls/{id}
-Redirects to the original URL
+GET /api/urls/u/{uuid}/
+Redirects to the original URL (using UUID)
+
+GET /api/urls/s/{slug}/
+Redirects to the original URL (using custom slug)
 ```
 
 ## Local Development
