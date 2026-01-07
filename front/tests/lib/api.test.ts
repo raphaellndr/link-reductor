@@ -4,6 +4,8 @@ import { shortenUrl } from "@/lib/api";
 
 global.fetch = vi.fn();
 
+const mockFetch = global.fetch as ReturnType<typeof vi.fn>;
+
 describe("shortenUrl", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -12,10 +14,10 @@ describe("shortenUrl", () => {
   it("returns shortened URL on success", async () => {
     const mockResponse = { id: "uuid", url: "https://example.com" };
 
-    (global.fetch as any).mockResolvedValueOnce({
+    mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => mockResponse,
-    });
+    } as Response);
 
     const result = await shortenUrl("https://example.com");
 
@@ -30,10 +32,10 @@ describe("shortenUrl", () => {
   });
 
   it("throws error on API failure", async () => {
-    (global.fetch as any).mockResolvedValueOnce({
+    mockFetch.mockResolvedValueOnce({
       ok: false,
       json: async () => ({ url: ["Invalid URL"] }),
-    });
+    } as Response);
 
     await expect(shortenUrl("invalid")).rejects.toThrow("Invalid URL");
   });
