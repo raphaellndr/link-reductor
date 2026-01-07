@@ -11,6 +11,7 @@ interface UrlResultProps {
 
 export function UrlResult({ result }: UrlResultProps) {
   const [copied, setCopied] = useState(false);
+  const [showOriginal, setShowOriginal] = useState(false);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
@@ -57,7 +58,13 @@ export function UrlResult({ result }: UrlResultProps) {
             {copied ? "Copied!" : "Copy"}
           </button>
         </div>
-        <p className="text-sm break-all text-gray-500">Original: {result.url}</p>
+        <button
+          onClick={() => setShowOriginal(!showOriginal)}
+          className="text-left text-sm text-gray-500 hover:text-gray-700"
+        >
+          {showOriginal ? "Hide" : "Show"} original URL
+        </button>
+        {showOriginal && <p className="text-sm break-all text-gray-500">{result.url}</p>}
       </div>
     </div>
   );
