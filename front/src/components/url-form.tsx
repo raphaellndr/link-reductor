@@ -6,6 +6,8 @@ import { shortenUrl } from "@/lib/api";
 import { isValidUrl } from "@/lib/utils";
 import type { UrlResponse } from "@/types";
 
+import { InputField } from "./input-field";
+
 interface UrlFormProps {
   onSuccess: (result: UrlResponse) => void;
 }
@@ -47,39 +49,26 @@ export function UrlForm({ onSuccess }: UrlFormProps) {
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-2xl">
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col gap-2">
-          <label htmlFor="url" className="text-sm font-medium text-gray-700">
-            Enter your long URL
-          </label>
-          <input
-            id="url"
-            type="url"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            placeholder="https://example.com/very/long/url"
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none disabled:cursor-not-allowed"
-            disabled={isLoading}
-          />
-        </div>
+        <InputField
+          id="url"
+          type="url"
+          label="Enter your long URL"
+          value={url}
+          onChange={setUrl}
+          placeholder="https://example.com/very/long/url"
+          disabled={isLoading}
+        />
 
-        <div className="flex flex-col gap-2">
-          <label htmlFor="slug" className="text-sm font-medium text-gray-700">
-            Custom slug (optional)
-          </label>
-          <input
-            id="slug"
-            type="text"
-            value={slug}
-            onChange={(e) => setSlug(e.target.value)}
-            placeholder="my-custom-link"
-            maxLength={30}
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none disabled:cursor-not-allowed"
-            disabled={isLoading}
-          />
-          <p className="text-xs text-gray-500">
-            Leave empty for auto-generated link. Only letters, numbers, hyphens, and underscores.
-          </p>
-        </div>
+        <InputField
+          id="slug"
+          label="Custom slug (optional)"
+          value={slug}
+          onChange={setSlug}
+          placeholder="my-custom-link"
+          maxLength={30}
+          disabled={isLoading}
+          helperText="Leave empty for auto-generated link. Only letters, numbers, hyphens, and underscores."
+        />
 
         <button
           type="submit"
