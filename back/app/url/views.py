@@ -12,12 +12,6 @@ from app.url.serializers import UrlSerializer
 class UrlView(APIView):
     """API endpoint for creating shortened URLs."""
 
-    def get(self, request: Request) -> Response:
-        """Lists all URLs."""
-        urls = Url.objects.all()
-        serializer = UrlSerializer(urls, many=True)
-        return Response(serializer.data)
-
     def post(self, request: Request) -> Response:
         """Creates a shortened URL."""
         serializer = UrlSerializer(data=request.data)

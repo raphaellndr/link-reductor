@@ -22,14 +22,6 @@ class TestUrlAPI:
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
 
-    def test_list_urls(self, api_client) -> None:
-        """Tests that listing all URLs is successful."""
-        Url.objects.create(url="https://example.com")
-        response = api_client.get("/api/urls/")
-
-        assert response.status_code == status.HTTP_200_OK
-        assert len(response.data) == 1
-
 
 @pytest.mark.django_db
 class TestRedirect:
