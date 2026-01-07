@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [react()],
   test: {
     include: ["tests/**/*.test.{ts,tsx}"],
-    environment: "heppy-dom",
+    environment: "happy-dom",
     setupFiles: ["./tests/vitest.setup.ts"],
     globals: true,
   },
