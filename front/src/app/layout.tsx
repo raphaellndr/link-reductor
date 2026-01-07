@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "URL Shortener",
+  title: "Link Reductor",
   description: "Shorten your long URLs quickly and easily",
 };
 
