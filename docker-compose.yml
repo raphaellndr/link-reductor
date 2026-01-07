@@ -1,0 +1,43 @@
+services:
+  # client:
+  #   restart: unless-stopped
+  #   container-name: client
+  #   build:
+  #     context: .
+  #     dockerfile: ./compose/client/Dockerfile
+  #   env_file:
+  #     - fileName
+
+  server:
+    restart: unless-stopped
+    container_name: server
+    build: 
+      context: ./back
+      dockerfile: ./compose/Dockerfile
+    command: ./entrypoint.sh
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - ./back/.env
+
+  postgres:
+    restart: unless-stopped
+    image: postgres:17-alpine
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    env_file:
+      - ./back/.env
+
+volumes:
+  postgres-data:
