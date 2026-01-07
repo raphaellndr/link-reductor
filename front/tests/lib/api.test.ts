@@ -19,7 +19,7 @@ describe("shortenUrl", () => {
       json: async () => mockResponse,
     } as Response);
 
-    const result = await shortenUrl({url: "https://example.com"});
+    const result = await shortenUrl({ url: "https://example.com" });
 
     expect(result).toEqual(mockResponse);
     expect(global.fetch).toHaveBeenCalledWith(
@@ -37,6 +37,6 @@ describe("shortenUrl", () => {
       json: async () => ({ url: ["Invalid URL"] }),
     } as Response);
 
-    await expect(shortenUrl({url: "invalid"})).rejects.toThrow("Invalid URL");
+    await expect(shortenUrl({ url: "invalid" })).rejects.toThrow("Invalid URL");
   });
 });
