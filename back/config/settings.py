@@ -154,7 +154,7 @@ REST_FRAMEWORK = {
 }
 
 SPECTACULAR_SETTINGS = {
-    "TITLE": "Url Reductor API",
+    "TITLE": "Link Reductor API",
     "DESCRIPTION": "API to reduct URLs",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
