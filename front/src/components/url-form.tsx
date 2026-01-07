@@ -12,6 +12,7 @@ interface UrlFormProps {
 
 export function UrlForm({ onSuccess }: UrlFormProps) {
   const [url, setUrl] = useState("");
+  const [slug, setSlug] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -32,9 +33,10 @@ export function UrlForm({ onSuccess }: UrlFormProps) {
     setIsLoading(true);
 
     try {
-      const result = await shortenUrl(url);
+      const result = await shortenUrl({ url, slug });
       onSuccess(result);
       setUrl("");
+      setSlug("");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
@@ -49,30 +51,49 @@ export function UrlForm({ onSuccess }: UrlFormProps) {
           <label htmlFor="url" className="text-sm font-medium text-gray-700">
             Enter your long URL
           </label>
-          <div className="flex gap-2">
-            <input
-              id="url"
-              type="url"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              placeholder="https://example.com/very/long/url"
-              className="flex-1 rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none disabled:cursor-not-allowed"
-              disabled={isLoading}
-            />
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="rounded-lg bg-blue-600 px-6 py-3 font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-400"
-            >
-              {isLoading ? "Shortening..." : "Shorten"}
-            </button>
-          </div>
-          {error && (
-            <p className="text-sm text-red-600" role="alert">
-              {error}
-            </p>
-          )}
+          <input
+            id="url"
+            type="url"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder="https://example.com/very/long/url"
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none disabled:cursor-not-allowed"
+            disabled={isLoading}
+          />
         </div>
+
+        <div className="flex flex-col gap-2">
+          <label htmlFor="slug" className="text-sm font-medium text-gray-700">
+            Custom slug (optional)
+          </label>
+          <input
+            id="slug"
+            type="text"
+            value={slug}
+            onChange={(e) => setSlug(e.target.value)}
+            placeholder="my-custom-link"
+            maxLength={30}
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none disabled:cursor-not-allowed"
+            disabled={isLoading}
+          />
+          <p className="text-xs text-gray-500">
+            Leave empty for auto-generated link. Only letters, numbers, hyphens, and underscores.
+          </p>
+        </div>
+
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="rounded-lg bg-blue-600 px-6 py-3 font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-400"
+        >
+          {isLoading ? "Shortening..." : "Shorten"}
+        </button>
+
+        {error && (
+          <p className="text-sm text-red-600" role="alert">
+            {error}
+          </p>
+        )}
       </div>
     </form>
   );

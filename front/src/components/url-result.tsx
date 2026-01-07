@@ -13,7 +13,11 @@ export function UrlResult({ result }: UrlResultProps) {
   const [copied, setCopied] = useState(false);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-  const shortUrl = `${API_URL}/api/urls/${result.id}`;
+
+  // Construct URL based on whether slug exists
+  const shortUrl = result.slug
+    ? `${API_URL}/api/urls/s/${result.slug}/`
+    : `${API_URL}/api/urls/u/${result.id}/`;
 
   useEffect(() => {
     if (copied) {
