@@ -7,16 +7,9 @@ export default defineConfig({
   plugins: [react()],
   test: {
     include: ["tests/**/*.test.{ts,tsx}"],
-    environment: "jsdom",
+    environment: "heppy-dom",
     setupFiles: ["./tests/vitest.setup.ts"],
     globals: true,
-    deps: {
-      optimizer: {
-        web: {
-          include: ["@exodus/bytes", "html-encoding-sniffer"],
-        },
-      },
-    },
   },
   resolve: {
     alias: {
