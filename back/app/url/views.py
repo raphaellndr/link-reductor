@@ -13,12 +13,32 @@ class UrlView(APIView):
     """API endpoint for creating shortened URLs."""
 
     def post(self, request: Request) -> Response:
-        """Creates a shortened URL."""
+        """Creates a shortened URL or returns existing one."""
         serializer = UrlSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        url = serializer.validated_data["url"]
+        slug = serializer.validated_data.get("slug")
+
+        if slug:
+            url_obj, created = Url.objects.get_or_create(
+                slug=slug, defaults={"url": url}
+            )
+
+            if not created and url_obj.url != url:
+                return Response(
+                    {"slug": ["This slug is already used for a different URL."]},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+        else:
+            url_obj, created = Url.objects.get_or_create(
+                url=url, slug__isnull=True, defaults={"url": url}
+            )
+
+        response_serializer = UrlSerializer(url_obj)
+        status_code = status.HTTP_201_CREATED if created else status.HTTP_200_OK
+        return Response(response_serializer.data, status=status_code)
 
 
 class RedirectByUuidView(View):

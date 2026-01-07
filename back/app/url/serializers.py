@@ -16,6 +16,9 @@ class UrlSerializer(serializers.ModelSerializer):
         model = Url
         fields = ["id", "url", "slug"]
         read_only_fields = ["id"]
+        extra_kwargs = {
+            "slug": {"validators": []},  # Remove default uniqueness validator
+        }
 
     def validate_slug(self, value):
         """Prevents reserved slugs that conflict with URL patterns."""

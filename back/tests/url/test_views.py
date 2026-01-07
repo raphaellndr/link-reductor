@@ -25,6 +25,48 @@ class TestUrlAPI:
         assert response.data["slug"] == "my-link"
         assert Url.objects.count() == 1
 
+    def test_create_url_with_different_slugs_same_url(self, api_client) -> None:
+        """Tests that same URL can have multiple custom slugs."""
+        url = "https://www.amazon.com/product"
+
+        response1 = api_client.post("/api/urls/", {"url": url, "slug": "link1"})
+        assert response1.status_code == status.HTTP_201_CREATED
+
+        response2 = api_client.post("/api/urls/", {"url": url, "slug": "link2"})
+        assert response2.status_code == status.HTTP_201_CREATED
+
+        assert Url.objects.count() == 2
+        assert response1.data["id"] != response2.data["id"]
+
+    def test_create_url_same_url_without_slug_returns_existing(
+        self, api_client
+    ) -> None:
+        """Tests that creating the same URL twice without slug returns the existing entry."""
+        url = "https://www.amazon.com/product"
+
+        response1 = api_client.post("/api/urls/", {"url": url})
+        assert response1.status_code == status.HTTP_201_CREATED
+        first_id = response1.data["id"]
+
+        response2 = api_client.post("/api/urls/", {"url": url})
+        assert response2.status_code == status.HTTP_200_OK
+        assert response2.data["id"] == first_id  # Same ID
+
+        assert Url.objects.count() == 1
+
+    def test_create_url_same_slug_same_url_returns_existing(self, api_client) -> None:
+        """Tests that using same slug with same URL returns existing entry."""
+        data = {"url": "https://www.amazon.com/product", "slug": "my-link"}
+
+        response1 = api_client.post("/api/urls/", data)
+        assert response1.status_code == status.HTTP_201_CREATED
+
+        response2 = api_client.post("/api/urls/", data)
+        assert response2.status_code == status.HTTP_200_OK
+        assert response1.data["id"] == response2.data["id"]
+
+        assert Url.objects.count() == 1
+
     def test_create_url_with_reserved_slug(self, api_client) -> None:
         """Tests that reserved slugs are rejected."""
         data = {"url": "https://example.com", "slug": "admin"}
