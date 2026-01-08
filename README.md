@@ -48,7 +48,7 @@ See individual README files in `back/` and `front/` directories for local develo
 ## Features
 
 - Shorten long URLs to compact links
-- Copy shortened URLs with one click
+- Copy or share shortened URLs with one click
 - Clean, minimal interface
 - RESTful API
 - PostgreSQL persistence
