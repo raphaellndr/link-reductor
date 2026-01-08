@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 
+import { UrlResult } from "@/components/result";
 import { UrlForm } from "@/components/url-form";
-import { UrlResult } from "@/components/url-result";
 import type { UrlResponse } from "@/types";
 
 export default function Home() {
