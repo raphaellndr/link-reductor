@@ -1,3 +1,4 @@
+import re
 from typing import Final
 
 from rest_framework import serializers
@@ -21,9 +22,16 @@ class UrlSerializer(serializers.ModelSerializer):
         }
 
     def validate_slug(self, value):
-        """Prevents reserved slugs that conflict with URL patterns."""
-        if value and value.lower() in RESERVED_SLUGS:
-            raise serializers.ValidationError(
-                "This slug is reserved and cannot be used."
-            )
+        """Validates slug format and prevents reserved slugs."""
+        if value:
+            if not re.match(r"^[a-zA-Z0-9_-]+$", value):
+                raise serializers.ValidationError(
+                    "Slug can only contain letters, numbers, hyphens, and underscores."
+                )
+
+            if value.lower() in RESERVED_SLUGS:
+                raise serializers.ValidationError(
+                    "This slug is reserved and cannot be used."
+                )
+
         return value
