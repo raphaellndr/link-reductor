@@ -7,6 +7,7 @@ Next.js frontend for the URL shortener service.
 - Clean, minimal interface
 - URL validation
 - One-click copy to clipboard
+- One-click share
 - Responsive design
 
 ## Local Development
