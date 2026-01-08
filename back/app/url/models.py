@@ -1,6 +1,5 @@
 import uuid
 
-from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -23,14 +22,6 @@ class Url(models.Model):
         null=True,
         blank=True,
         db_index=True,
-        validators=[
-            RegexValidator(
-                regex=r"^[a-zA-Z0-9_-]+$",
-                message=_(
-                    "Slug can only contain letters, numbers, hyphens, and underscores."
-                ),
-            )
-        ],
     )
 
     class Meta:
