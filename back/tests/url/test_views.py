@@ -75,6 +75,14 @@ class TestUrlAPI:
         assert response.status_code == status.HTTP_400_BAD_REQUEST
         assert "slug" in response.data
 
+    def test_create_url_with_wrong_slug(self, api_client) -> None:
+        """Tests that wrong slugs are rejected."""
+        data = {"url": "https://example.com", "slug": "^$%#"}
+        response = api_client.post("/api/urls/", data)
+
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert "slug" in response.data
+
     def test_create_url_invalid(self, api_client) -> None:
         """Tests that creating URL with invalid data does not work."""
         response = api_client.post("/api/urls/", {})
