@@ -9,7 +9,11 @@ class Url(models.Model):
     """Model to store URLs."""
 
     id = models.UUIDField(
-        _("URL identifier"), primary_key=True, default=uuid.uuid4, editable=False
+        _("URL identifier"),
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+        max_length=30,
     )
     url = models.URLField(_("Original URL"), max_length=2048)
     slug = models.CharField(
