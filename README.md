@@ -20,7 +20,7 @@ A minimal and clean URL shortening service with a modern web interface.
 
 3. Build and run with Docker Compose:
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 
 4. Access the application:
@@ -32,7 +32,7 @@ For subsequent runs, you can use just `docker-compose up` (without `--build`).
 
 To stop the services:
 ```bash
-docker-compose down
+docker compose down
 ```
 
 ## Services
